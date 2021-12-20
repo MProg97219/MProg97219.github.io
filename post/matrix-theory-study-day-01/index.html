@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="MProg" /><meta name="description" content="1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）任意数环必" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="MProg" /><meta name="description" content="1.1.1 线性空间 1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +40,19 @@
 
 
 <meta property="og:title" content="Matrix Theory Study Day 01" />
-<meta property="og:description" content="1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）任意数环必" />
+<meta property="og:description" content="1.1.1 线性空间 1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mprog97219.github.io/post/matrix-theory-study-day-01/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-12-13T15:44:53+08:00" />
 <meta property="article:modified_time" content="2021-12-13T15:44:53+08:00" />
 
 <meta itemprop="name" content="Matrix Theory Study Day 01">
-<meta itemprop="description" content="1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）任意数环必"><meta itemprop="datePublished" content="2021-12-13T15:44:53+08:00" />
+<meta itemprop="description" content="1.1.1 线性空间 1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）"><meta itemprop="datePublished" content="2021-12-13T15:44:53+08:00" />
 <meta itemprop="dateModified" content="2021-12-13T15:44:53+08:00" />
-<meta itemprop="wordCount" content="1874">
+<meta itemprop="wordCount" content="3893">
 <meta itemprop="keywords" content="matrix theory," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Matrix Theory Study Day 01"/>
-<meta name="twitter:description" content="1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）任意数环必"/>
+<meta name="twitter:description" content="1.1.1 线性空间 1.数环与数域 定义1.1.1 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。 （1）"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -139,12 +139,13 @@
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#111-线性空间"><strong>1.1.1 线性空间</strong></a>
           <ul>
             <li><a href="#1数环与数域"><strong>1.数环与数域</strong></a></li>
             <li><a href="#2线性空间"><strong>2.线性空间</strong></a></li>
             <li><a href="#3线性空间基本性质"><strong>3.线性空间基本性质</strong></a></li>
             <li><a href="#4基维数与坐标"><strong>4.基、维数与坐标</strong></a></li>
+            <li><a href="#5线性子空间"><strong>5.线性子空间</strong></a></li>
           </ul>
         </li>
       </ul>
@@ -154,7 +155,8 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="1数环与数域"><strong>1.数环与数域</strong></h3>
+      <h2 id="111-线性空间"><strong>1.1.1 线性空间</strong></h2>
+<h3 id="1数环与数域"><strong>1.数环与数域</strong></h3>
 <p><strong>定义1.1.1</strong> 当数集Z中的任意两个数作加、减、乘法（没有除法）运算所取得结果仍然在数集Z中时，称Z为一个数环。</p>
 <p>（1）任意数环必定包含0元素；</p>
 <p>（2）若$a \in Z $，则$-a \in Z$。</p>
@@ -185,8 +187,8 @@
 <p><strong>定义1.1.4</strong> 只含有一个0元素的线性空间称为<strong>零空间</strong>。</p>
 <h3 id="4基维数与坐标"><strong>4.基、维数与坐标</strong></h3>
 <p>有限个向量组成的集合总是无法满足封闭的线性运算，除了0空间以外，基本上所有的线性空间都由无穷个向量组成。因此有两个问题：</p>
-<p>（1）<strong>这无穷个向量是否可以由该线性空间中的有限个具有代表性的向量组成。</strong></p>
-<p>（2）<strong>线性空间中的向量是抽象的，如何将它们与具体的数组向量联系起来，使得抽象的线性运算转换为数组向量的线性运算。</strong></p>
+<p>（1）<a id="problem1"><strong>这无穷个向量是否可以由该线性空间中的有限个具有代表性的向量组成。</strong></a></p>
+<p>（2）<a id="problem2"><strong>线性空间中的向量是抽象的，如何将它们与具体的数组向量联系起来，使得抽象的线性运算转换为数组向量的线性运算。</strong></a></p>
 <p><strong>定义</strong> 如果$x_1,x_2,&hellip;,x_r(r&gt;0)$为线性空间$V$中一组向量，$k_1,k_2,&hellip;,k_r$是数域$P$中的数，那么向量
 $$
 x=k_1x_1+k_2x_2+&hellip;+k_rx_r
@@ -203,6 +205,41 @@ $$
 <p>特别地，<strong>零空间的维数为零</strong>。</p>
 <p>齐次方程组$Ax=0$的基础解系就是其解空间的一组基。</p>
 <p><strong>定理1.1.1</strong> 设$x_1,x_2,&hellip;,x_n$是$V$的一组基，对于任意向量$x\in V^n$，则它可唯一地由$x_1,x_2,&hellip;,x_n$线性表示。</p>
+<p>定理1.1.1回答了<a href="#problem1">问题1</a>，接下来考虑<a href="#problem2">第二个问题</a></p>
+<p><strong>定义1.1.6</strong> 任意给一组有序数$\lambda_{1},\lambda_{2},&hellip;,\lambda_{n}$，总有唯一向量
+$$
+x= \lambda_1x_1+\lambda_2x_2+&hellip;+\lambda_nx_n\in V^n
+$$
+称$\lambda_{1},\lambda_{2},&hellip;,\lambda_{n}$为向量$x$在$x_1,x_2,&hellip;,x_n$下的坐标。</p>
+<p><strong>同一向量$x$在不同基底下往往具有不同的坐标。</strong></p>
+<p>那么不同的基底之间又有什么关系呢？为此，介绍一组基底改变为另外一组基底时<strong>过渡矩阵</strong>的概念。</p>
+<p>设$e_{1},e_{2},&hellip;,e_{n}$及$e_{1}^{\prime}, e_{2}^{\prime}, \cdots, e_{n}^{\prime}$是$V^n$中的两组基，且
+$$
+\left(e_{1}^{\prime}, e_{2}^{\prime}, \cdots, e_{n}^{\prime}\right)=\left(e_{1}, e_{2}, \cdots, e_{n}\right) C
+$$
+称$C$为由基$e_{1},e_{2},&hellip;,e_{n}$到$e_{1}^{\prime}, e_{2}^{\prime}, \cdots, e_{n}^{\prime}$的过渡矩阵，由于$e_{1}^{\prime}, e_{2}^{\prime}, \cdots, e_{n}^{\prime}$线性无关，故$C$可逆。</p>
+<p>因此一组基可以由另外一组基表示，而通过基与坐标之（向量由基与坐标构成）间的关系，可以得到坐标与过渡矩阵之间的关系。</p>
+<h3 id="5线性子空间"><strong>5.线性子空间</strong></h3>
+<p><strong>定义1.1.7</strong> 设$V_1$是数域$P$上线性空间$V$的一个子集，且这个子集对$V$已有的加法和数乘运算封闭，则称$V_1$是$V$的一个线性子空间，记为$V_1\subseteq V$，若$V_1\neq V$，则记为$V_1\subset V$。</p>
+<p><strong>定理1.1.2</strong> 设$V_1$是线性空间$V$的一个非空子集，则$V_1$是$V$的一个子空间的充要条件为：</p>
+<p>（1）如果$x,y\in V_1$，则$x+y\in V_1$；</p>
+<p>（2）如果$x\in V_1,k\in P$，则$kx\in V_1$。</p>
+<p>设$A\in R^{m\times n}$，齐次方程组$Ax=0$的全部解向量构成n维线性空间R的一个子空间，记为齐次方程组的解空间$N(A)$或$ker(A)$，其维数$dim(N(A))=n-rank(A)$。<strong>如果n元齐次线性方程组的系数矩阵的秩为$rank(A)$，则化为阶梯型矩阵时必含有$rank(A)$个非零行，从而方程组必有$n-rank(A)$个自由未知数。即基础解系中含有$n-rank(A)$个解向量，所以解空间的维数为什么是$n-rank(A)$。</strong></p>
+<p><strong>生成子空间</strong> 设$e_{1},e_{2},&hellip;,e_{m}$是线性空间中的一组向量，这组向量在$V$中的所有组合为
+$$
+V_1={k_1e_1+k_2e_2+&hellip;+k_me_m }
+$$
+容易验证$V_1$对$V$的线性运算是封闭的，因而$V_1$是$V$的一个线性子空间，称为由$e_{1},e_{2},&hellip;,e_{m}$<strong>生成的子空间</strong>，记为$V_1=Span(x_1,x_2,&hellip;,x_m)$</p>
+<p><strong>定理1.1.5</strong> 设$V_1$是数域P上n维线性子空间V的一个m维线性子空间，$\alpha_1,\alpha_2,&hellip;\alpha_m$是$V_1$的一组基，那么$\alpha_1,\alpha_2,&hellip;\alpha_m$必定可以扩充为整个线性空间的基，也就是说在$V$中必定可以找到$n-m$个向量$\alpha_{m+1},\alpha_{m+2},&hellip;\alpha_n$，使得$\alpha_1,\alpha_2,&hellip;\alpha_n$是V的一组基。</p>
+<p><strong>定理1.1.6</strong> 维数公式：$\operatorname{dim} V_{1}+\operatorname{dim} V_{2}=\operatorname{dim}\left(V_{1}+V_{2}\right)+\operatorname{dim}\left(V_{1} \cap V_{2}\right)$</p>
+<p>由定理1.1.6可以看出，两子空间和的维数往往比维数的和来的小。</p>
+<p>若$x\in V_1,y\in V_2$，则$V_1+V_2$中的任意向量$z$可以表示为$z=x+y$，但是一般来说，这种表示方式并不唯一。针对这种现象，在子空间的和中，把能唯一表示成$z=x+y$的那种和，给予一种特殊的定义。</p>
+<p><strong>定义1.1.10</strong> 如果$V_1+V_2$中的任一向量只能唯一地表示成子空间$V_1$的一个向量和子空间$V_2$中的一个向量的和，则称$V_1+V_2$直和，记为$V_1\oplus V_2$。</p>
+<p><strong>定理1.1.7</strong> $V_1+V_2$为直和的充要条件是：$V_1$与$V_2$之交$V_1\cap V_2$为零子空间。</p>
+<p><strong>推论1</strong> $V_1+V_2$为直和的充要条件是$dim(V_1+V_2)=dimV_1+dimV_2$</p>
+<p><strong>推论2</strong> 设$V_1+V_2$为直和，若$x_1,x_2,&hellip;,x_n$是$V_1$的基，$y_1,y_2,&hellip;,y_n$是$V_2$的基，则$x_1,x_2,&hellip;,x_n,y_1,y_2,&hellip;,y_n$是$V_1+V_2$的基。</p>
+<p><strong>定理1.1.8</strong> 设$V_1$是n维线性空间$V$的一个子空间，则一定存在$V$的一个子空间$V_2$使得$V=V_1+V_2$。</p>
+<p>根据定理1.1.8可知，线性空间$V$可以做<strong>直和分解</strong>，且这种分解不是唯一的。</p>
 
     </div>
 
@@ -272,6 +309,7 @@ $$
     2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>MProg</span>
   </span>
 </div>
+
 
     </footer>
 
