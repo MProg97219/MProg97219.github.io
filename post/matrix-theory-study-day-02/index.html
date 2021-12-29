@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Matrix Theory Study Day 02">
 <meta itemprop="description" content="1.1.2 线性算子及其矩阵 1.线性空间上的线性算子 定义1.1.11 设$M$与$M&#39;$为两个集合，对于每个$x\in M$，如果根据某种法则$\math"><meta itemprop="datePublished" content="2021-12-20T10:43:56+08:00" />
 <meta itemprop="dateModified" content="2021-12-20T10:43:56+08:00" />
-<meta itemprop="wordCount" content="496">
+<meta itemprop="wordCount" content="2102">
 <meta itemprop="keywords" content="matrix theory," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Matrix Theory Study Day 02"/>
 <meta name="twitter:description" content="1.1.2 线性算子及其矩阵 1.线性空间上的线性算子 定义1.1.11 设$M$与$M&#39;$为两个集合，对于每个$x\in M$，如果根据某种法则$\math"/>
@@ -142,6 +142,8 @@
         <li><a href="#112-线性算子及其矩阵"><strong>1.1.2 线性算子及其矩阵</strong></a>
           <ul>
             <li><a href="#1线性空间上的线性算子"><strong>1.线性空间上的线性算子</strong></a></li>
+            <li><a href="#2同构算子及线性空间同构"><strong>2.同构算子及线性空间同构</strong></a></li>
+            <li><a href="#3线性算子的矩阵表示">3.线性算子的矩阵表示</a></li>
           </ul>
         </li>
       </ul>
@@ -154,16 +156,42 @@
       <h2 id="112-线性算子及其矩阵"><strong>1.1.2 线性算子及其矩阵</strong></h2>
 <h3 id="1线性空间上的线性算子"><strong>1.线性空间上的线性算子</strong></h3>
 <p><strong>定义1.1.11</strong> 设$M$与$M'$为两个集合，对于每个$x\in M$，如果根据某种法则$\mathcal{A}$，在$M'$中有确定的$x'$与之对应，那么称$\mathcal{A}$为由$M$到$M'$的一个<strong>映射</strong>，或者称为<strong>算子</strong>。记为$\mathcal{A}:M\rightarrow M'$或者$\mathcal{A}(x)=x'$。</p>
-<p>此时，$x'$叫做$x$在$\mathcal{A}$下的像，$x$叫做$x'$的原像，$M$是$\mathcal{A}$的定义域，$x'$的全体构成$\mathcal{A}$的值域，记为$\mathcal{A}(M)$。可知$\mathcal{A}(M)\subseteq M'$。</p>
-<p>实际上，算子（或者说映射）实际上就是函数概念的推广。</p>
-<p><strong>定义1.1.12</strong> 设$V$与$V'$为数域$P$上的两个线性空间，$\mathcal{A}$是由$V$到$V'$的算子，且对于$V$的任意两个向量$x_1,x_2\in V$和任何数$\lambda\in P$，有
+<p>此时，$x'$叫做$x$在$\mathcal{A}$下的<strong>像</strong>，$x$叫做$x'$的<strong>原像</strong>，$M$是$\mathcal{A}$的定义域，$x'$的全体构成$\mathcal{A}$的值域，记为$\mathcal{A}(M)$。可知$\mathcal{A}(M)\subseteq M'$。</p>
+<p>实际上，算子（或者说映射）实际上就是<strong>函数概念</strong>的推广。</p>
+<p><strong>定义1.1.12</strong> **线性算子：**设$V$与$V'$为数域$P$上的两个线性空间，$\mathcal{A}$是由$V$到$V'$的算子，且对于$V$的任意两个向量$x_1,x_2\in V$和任何数$\lambda\in P$有
 $$
 \mathcal{A}(x_1+x_2)=\mathcal{A}(x_1)+\mathcal{A}(x_2)
 $$</p>
 <p>$$
 \mathcal{A}(\lambda x_1)=\lambda\mathcal{A}(x_1)
 $$</p>
-<p>则称$\mathcal{A}$是由$V$到$V'$的<strong>线性算子</strong>。</p>
+<p>则称$\mathcal{A}$是由$V$到$V'$的<strong>线性算子</strong>（或线性映射）。</p>
+<p>将线性空间$V$中每一向量映射成线性空间$V'$中的零向量的算子$\mathcal{O}$叫做<strong>零算子</strong>，它是一个线性算子。</p>
+<p>任意给定数$k\in P$，数域$P$上线性空间$V$到自身的一个算子$\mathcal{R}$叫做$V$上的由数$k$决定的<strong>数乘算子</strong>，即$\mathcal{R}(x)=kx,\forall x\in V$。</p>
+<p>线性算子有以下<strong>性质</strong>：</p>
+<p>（1）线性算子$\mathcal{A}$将$V$中的零向量变为$V'$中的零向量；将向量$x$的负向量$-x$变为$x$的像$\mathcal{A}(x)$的负向量$-\mathcal{A}(x)$。</p>
+<p>（2）线性算子$\mathcal{A}$把线性相关的向量组仍然变为线性相关的向量组。</p>
+<p><strong>注意</strong>，线性算子可能将线性无关的向量组变为线性相关的，比如零算子。所以，如果$x_1,x_2,&hellip;,x_r$为$V$中的一组线性无关向量，为使它们的像$\mathcal{A}(x_1),\mathcal{A}(x_2),&hellip;,\mathcal{A}(x_r)$在$V'$中线性无关，必须对线性算子$\mathcal{A}$补充条件，即<strong>同构算子</strong></p>
+<h3 id="2同构算子及线性空间同构"><strong>2.同构算子及线性空间同构</strong></h3>
+<p><strong>定义1.1.13</strong> 设$\mathcal{A}$是由$V$到$V'$的线性算子，且是&quot;一对一&quot;的，即满足</p>
+<p>（1）$\mathcal{A}(V)=V'$（全映射）；</p>
+<p>（2）若$x_1,x_2\in V$，当$x_1\neq x_2$时，有$\mathcal{A}(x_1)\neq \mathcal{A}(x_2)$。</p>
+<p>那么称$\mathcal{A}$为$V$与$V'$之间的一个<strong>同构算子</strong>。若$V$与$V'$之间存在同构算子，则称$V$与$V'$是<strong>同构的线性空间</strong>，简称$V$与$V'$同构。<strong>一对一的线性算子就是同构算子</strong>。</p>
+<p><strong>同构线性空间的基本性质：</strong></p>
+<p><strong>性质1</strong> 传递性：设$V_1,V_2,V_3$是数域$P$上的线性空间，如果$V_1$与$V_2$同构，$V_2$与$V_3$同构，则$V_1$与$V_3$同构；</p>
+<p><strong>性质2</strong> 同构的线性空间中的零向量必定是相互对应的。</p>
+<p><strong>性质3</strong> 同构的线性空间中：线性相关的向量组对应于线性相关的向量组，无关的对应于无关的。</p>
+<p><strong>定理1.1.9</strong> 数域P上两个有限维线性空间同构的充要条件是：<strong>两线性空间的维数相等</strong>。</p>
+<p><strong>推论</strong> 数域P上的任意n维线性空间$V^n$都与特殊的线性空间（在这里其实就是向量空间，从抽象变为了具体）$K^n=\lbrace(a_1,a_2,&hellip;,a_n)|a_i\in P\rbrace$同构。<strong>即使$V^n$可以代表不同的线性空间，其元素可能完全不同，但是利用同构关系，都可能将$V^n$中的问题通过基转化到向量空间$K^n$中的问题加以研究。</strong></p>
+<h3 id="3线性算子的矩阵表示">3.线性算子的矩阵表示</h3>
+<p>线性空间的向量可以用坐标来表示，而<strong>抽象的线性算子也能同具体的数发生联系</strong>。</p>
+<p><strong>定义1.1.14</strong> 设$e_1,e_2,&hellip;,e_n$是$n$维线性空间$V^n$的一组基，$\mathcal{A}$是由$V^n$到$m$维线性空间$V^m$的线性算子，则$\mathcal{A}(e_1),\mathcal{A}(e_2),&hellip;,\mathcal{A}(e_n)\in V^m$叫做$V^n$在算子$\mathcal{A}$下的<strong>基像</strong>。</p>
+<p><strong>定义1.1.15</strong> 设$\mathcal{A}$与$\mathcal{B}$是由$V^n$到$V^m$的算子，若对于任意$x\in V^n$都有
+$$
+\mathcal{A}(x)=\mathcal{B}(x)\in V^m
+$$
+则称线性算子$\mathcal{A}$与$\mathcal{B}$相等。</p>
+<p><strong>定理1.1.10</strong> 由$V^n$到$V^m$的线性算子$\mathcal{A}$由基像$\mathcal{A}(e_1),\mathcal{A}(e_2),&hellip;,\mathcal{A}(e_n)$唯一确定。</p>
 
     </div>
 
@@ -187,7 +215,11 @@ $$</p>
           <a href="/tags/matrix-theory/">matrix theory</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">项目记录</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-day-01/">
             <span class="next-text nav-default">论文阅读 Day 01</span>
             <span class="next-text nav-mobile">下一篇</span>

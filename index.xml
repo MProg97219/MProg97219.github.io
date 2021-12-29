@@ -6,7 +6,16 @@
     <description>Recent content on 梦境碎片</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Dec 2021 10:43:56 +0800</lastBuildDate><atom:link href="https://mprog97219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Dec 2021 15:50:00 +0800</lastBuildDate><atom:link href="https://mprog97219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>项目记录</title>
+      <link>https://mprog97219.github.io/post/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Wed, 29 Dec 2021 15:50:00 +0800</pubDate>
+      
+      <guid>https://mprog97219.github.io/post/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/</guid>
+      <description>实现了动态加载第三方jar包中方法的功能，参照了这篇博客，以及这篇博客需要注意的就是在程序中充当接口的类与第三方jar包中的接口类所在的包路</description>
+    </item>
+    
     <item>
       <title>Matrix Theory Study Day 02</title>
       <link>https://mprog97219.github.io/post/matrix-theory-study-day-02/</link>

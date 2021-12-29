@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on 梦境碎片</title>
+    <link>https://mprog97219.github.io/tags/java/</link>
+    <description>Recent content in java on 梦境碎片</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 29 Dec 2021 15:50:00 +0800</lastBuildDate><atom:link href="https://mprog97219.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>项目记录</title>
+      <link>https://mprog97219.github.io/post/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Wed, 29 Dec 2021 15:50:00 +0800</pubDate>
+      
+      <guid>https://mprog97219.github.io/post/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/</guid>
+      <description>实现了动态加载第三方jar包中方法的功能，参照了这篇博客，以及这篇博客需要注意的就是在程序中充当接口的类与第三方jar包中的接口类所在的包路</description>
+    </item>
+    
+  </channel>
+</rss>

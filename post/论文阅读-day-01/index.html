@@ -168,7 +168,7 @@ $$
 $$
 或者
 $$
-\min_{X \in \Re^{m \times n}}{\operatorname{rank}(X): \mathcal{A}(X)=b}
+\min_{X \in \Re^{m \times n}}\lbrace\operatorname{rank}(X): \mathcal{A}(X)=b\rbrace
 $$
 其拉格朗日形式为：
 $$
@@ -179,18 +179,18 @@ $$
 <p>因此问题变为：
 $$
 \begin{equation}
-\min_{X \in \Re^{m \times n}}{\lVert X\rVert_{*}: \mathcal{A}(X)=b}
+\min_{X \in \Re^{m \times n}}\lbrace{\lVert X\rVert_{*}: \mathcal{A}(X)=b}\rbrace
 \end{equation}
 $$</p>
 <p>当矩阵变量被限制为对角线的时候，问题（1）和（2）分别退化为：
 $$
 \begin{equation}
-\min_{x \in \Re^{n}}{\lVert x\rVert_{0}: A x=b}
+\min_{x \in \Re^{n}}\lbrace\lVert x\rVert_{0}: A x=b\rbrace
 \end{equation}
 $$</p>
 <p>$$
 \begin{equation}
-\min_{x \in \Re^{n}}{\lVert x\rVert_{1}: A x=b}
+\min_{x \in \Re^{n}}\lbrace\lVert x\rVert_{1}: A x=b\rbrace
 \end{equation}
 $$</p>
 <p>其中式（4）被称为basic pursuit problem，在式（4）中，$b$内可能存在噪声，则$Ax=b$可能不可行，因此应最小化或约束残差$Ax=b$的适当范数。在这种情况下，要考虑的适当模型可以是以下$l_1$正则化线性最小二乘问题：
