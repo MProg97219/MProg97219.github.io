@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Matrix Theory Study Day 02">
 <meta itemprop="description" content="1.1.2 线性算子及其矩阵 1.线性空间上的线性算子 定义1.1.11 设$M$与$M&#39;$为两个集合，对于每个$x\in M$，如果根据某种法则$\math"><meta itemprop="datePublished" content="2021-12-20T10:43:56+08:00" />
 <meta itemprop="dateModified" content="2021-12-20T10:43:56+08:00" />
-<meta itemprop="wordCount" content="2102">
+<meta itemprop="wordCount" content="2650">
 <meta itemprop="keywords" content="matrix theory," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Matrix Theory Study Day 02"/>
 <meta name="twitter:description" content="1.1.2 线性算子及其矩阵 1.线性空间上的线性算子 定义1.1.11 设$M$与$M&#39;$为两个集合，对于每个$x\in M$，如果根据某种法则$\math"/>
@@ -143,7 +143,7 @@
           <ul>
             <li><a href="#1线性空间上的线性算子"><strong>1.线性空间上的线性算子</strong></a></li>
             <li><a href="#2同构算子及线性空间同构"><strong>2.同构算子及线性空间同构</strong></a></li>
-            <li><a href="#3线性算子的矩阵表示">3.线性算子的矩阵表示</a></li>
+            <li><a href="#3线性算子的矩阵表示"><strong>3.线性算子的矩阵表示</strong></a></li>
           </ul>
         </li>
       </ul>
@@ -183,15 +183,20 @@ $$</p>
 <p><strong>性质3</strong> 同构的线性空间中：线性相关的向量组对应于线性相关的向量组，无关的对应于无关的。</p>
 <p><strong>定理1.1.9</strong> 数域P上两个有限维线性空间同构的充要条件是：<strong>两线性空间的维数相等</strong>。</p>
 <p><strong>推论</strong> 数域P上的任意n维线性空间$V^n$都与特殊的线性空间（在这里其实就是向量空间，从抽象变为了具体）$K^n=\lbrace(a_1,a_2,&hellip;,a_n)|a_i\in P\rbrace$同构。<strong>即使$V^n$可以代表不同的线性空间，其元素可能完全不同，但是利用同构关系，都可能将$V^n$中的问题通过基转化到向量空间$K^n$中的问题加以研究。</strong></p>
-<h3 id="3线性算子的矩阵表示">3.线性算子的矩阵表示</h3>
+<h3 id="3线性算子的矩阵表示"><strong>3.线性算子的矩阵表示</strong></h3>
 <p>线性空间的向量可以用坐标来表示，而<strong>抽象的线性算子也能同具体的数发生联系</strong>。</p>
 <p><strong>定义1.1.14</strong> 设$e_1,e_2,&hellip;,e_n$是$n$维线性空间$V^n$的一组基，$\mathcal{A}$是由$V^n$到$m$维线性空间$V^m$的线性算子，则$\mathcal{A}(e_1),\mathcal{A}(e_2),&hellip;,\mathcal{A}(e_n)\in V^m$叫做$V^n$在算子$\mathcal{A}$下的<strong>基像</strong>。</p>
+<p>确定一组基像后可以将算子找出来，这可能是因为<strong>基像</strong>和<strong>原像</strong>存在某种对应关系，这种关系可以将算子确定。</p>
 <p><strong>定义1.1.15</strong> 设$\mathcal{A}$与$\mathcal{B}$是由$V^n$到$V^m$的算子，若对于任意$x\in V^n$都有
 $$
 \mathcal{A}(x)=\mathcal{B}(x)\in V^m
 $$
 则称线性算子$\mathcal{A}$与$\mathcal{B}$相等。</p>
 <p><strong>定理1.1.10</strong> 由$V^n$到$V^m$的线性算子$\mathcal{A}$由基像$\mathcal{A}(e_1),\mathcal{A}(e_2),&hellip;,\mathcal{A}(e_n)$唯一确定。</p>
+<p>要建立<strong>矩阵</strong>与<strong>线性算子</strong>之间的关系，只需要考察一组基像的坐标。</p>
+<p>基像并不等于基，它们不是线性无关的。比如$V^n$在算子$\mathcal{A}$下的基像$\mathcal{A}(e_1),\mathcal{A}(e_2),&hellip;,\mathcal{A}(e_n)\in V^m$，这些个基像是在$V^m$中的，然而他们的个数是$n$个，根据线性空间维数的定义，基的个数首先要与线性空间的维数相一致才对。</p>
+<p><strong>定义1.1.16</strong> 有线性空间$V^n$和$V^m$，他们两个的基共称为<strong>基偶</strong>，由$V^n$到$V^m$算子可以根据基偶得到一个<strong>矩阵表示</strong>$A_{m\times n}$，此矩阵表示唯一。</p>
+<p><strong>定理1.1.11</strong> 若$e_1,e_2,&hellip;,e_n$是$n$维线性空间$V^n$的一组基，而$y_1,y_2,&hellip;,y_n$是$m$维线性空间$V^m$的任意n个向量，则存在唯一一个线性算子$\mathcal{A}$将$e_1,e_2,&hellip;,e_n$映射为$y_1,y_2,&hellip;,y_n$，即$y_i=\mathcal{A}(e_i),i=1,2,&hellip;,n$。</p>
 
     </div>
 
@@ -258,7 +263,8 @@ $$
   <span class="copyright-year">
   <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备2020036059号-1</a>
     &copy; 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>MProg</span>
+    2021 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>MProg</span>
   </span>
 </div>
 
