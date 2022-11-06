@@ -3,21 +3,21 @@
   
   <url>
     <loc>http://localhost:1313/post/</loc>
-    <lastmod>2022-11-06T21:32:43+08:00</lastmod>
+    <lastmod>2022-11-06T22:26:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/post/test/</loc>
-    <lastmod>2022-11-06T21:32:43+08:00</lastmod>
+    <loc>http://localhost:1313/post/transformer%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2022-11-06T22:26:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2022-11-06T21:32:43+08:00</lastmod>
+    <lastmod>2022-11-06T22:26:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
