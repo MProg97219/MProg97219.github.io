@@ -48,7 +48,7 @@
 <meta itemprop="name" content="Openvino部署流程">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-11-06T22:26:58+08:00" />
 <meta itemprop="dateModified" content="2022-11-06T22:26:58+08:00" />
-<meta itemprop="wordCount" content="12">
+<meta itemprop="wordCount" content="1037">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Openvino部署流程"/>
 <meta name="twitter:description" content=""/>
@@ -136,7 +136,15 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#部署流程">部署流程</a></li>
+        <li><a href="#1下载">1.下载</a></li>
+        <li><a href="#2环境配置">2.环境配置</a></li>
+        <li><a href="#3例子">3.例子</a>
+          <ul>
+            <li><a href="#基类">基类</a></li>
+            <li><a href="#派生类">派生类</a></li>
+            <li><a href="#调用">调用</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -144,12 +152,425 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="部署流程">部署流程</h2>
-<p>依赖路径：</p>
+      <h2 id="1下载">1.下载</h2>
+<h2 id="2环境配置">2.环境配置</h2>
 <figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/reference_include.png" width="50%"/><figcaption>
+            <h4>include_path</h4>
+        </figcaption>
+</figure>
+
+<figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/reference_lib_path.png" width="50%"/><figcaption>
+            <h4>lib_path</h4>
+        </figcaption>
+</figure>
+
+<figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/reference_lib.png" width="50%"/><figcaption>
             <h4>依赖项</h4>
         </figcaption>
 </figure>
+
+<h2 id="3例子">3.例子</h2>
+<h3 id="基类">基类</h3>
+<p>基类中实现初始化方法以及前向推理方法，前处理和后处理方式子类中重写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cm">/*****************************************************************//**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \file   CNNProcessor.h
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \brief  神经网络处理类
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \author zsg
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \date   January 2023
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *********************************************************************/</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/core.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/imgproc.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;inference_engine.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">InferenceEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma once
+</span></span></span><span class="line"><span class="cl"><span class="cp">#ifdef CURVILINEARPROCESSOR_EXPORTS
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define CURVILINEARPROCESSOR_API __declspec(dllexport)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#else
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define CURVILINEARPROCESSOR_API __declspec(dllimport)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 基类.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span>  <span class="n">base_processor_copy</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">class</span>  <span class="nc">CBaseProcessor</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">protected</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="n">CBaseProcessor</span><span class="p">()</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">	<span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="k">virtual</span> <span class="o">~</span><span class="n">CBaseProcessor</span><span class="p">()</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">	<span class="k">protected</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 推理请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">InferRequest</span> <span class="n">infer_request</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 模型路径
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">modal_path</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 设备类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">device_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// onnx导出时输入和输出的名字索引
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">input_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">output_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">	<span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 基类暴露4个机构
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 用于模型初始化，基类中提供默认实现
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CURVILINEARPROCESSOR_API</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">model_path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 前处理，纯虚函数，需在子类中重写
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CURVILINEARPROCESSOR_API</span> <span class="k">virtual</span> <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">PreProcess</span><span class="p">(</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 推理过程，通用，基类中提供默认实现
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CURVILINEARPROCESSOR_API</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 后处理，纯虚函数，需在子类中重写
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CURVILINEARPROCESSOR_API</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">PostProcess</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cm">/*****************************************************************//**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \file  CNNBase.cpp
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \brief  基类实现
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \author sclead_dl4
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \date   January 2023
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *********************************************************************/</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&#34;CNNProcessorCopy.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 通用模型初始化过程.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \param model_path onnx模型所在路径
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \return 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">base_processor_copy</span><span class="o">::</span><span class="n">CBaseProcessor</span><span class="o">::</span><span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">model_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">-&gt;</span><span class="n">modal_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">device_type</span> <span class="o">=</span> <span class="s">&#34;CPU&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Core</span> <span class="n">ie</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CNNNetwork</span> <span class="n">network</span> <span class="o">=</span> <span class="n">ie</span><span class="p">.</span><span class="n">ReadNetwork</span><span class="p">(</span><span class="n">model_path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">getOutputsInfo</span><span class="p">().</span><span class="n">size</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">(</span><span class="s">&#34;Sample supports topologies with 1 output only&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">getInputsInfo</span><span class="p">().</span><span class="n">size</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">(</span><span class="s">&#34;Sample supports topologies with 1 input only&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">InputInfo</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">input_info</span> <span class="o">=</span> <span class="n">network</span><span class="p">.</span><span class="n">getInputsInfo</span><span class="p">().</span><span class="n">begin</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">input_name</span> <span class="o">=</span> <span class="n">network</span><span class="p">.</span><span class="n">getInputsInfo</span><span class="p">().</span><span class="n">begin</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">getOutputsInfo</span><span class="p">().</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Network outputs info is empty&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DataPtr</span> <span class="n">output_info</span> <span class="o">=</span> <span class="n">network</span><span class="p">.</span><span class="n">getOutputsInfo</span><span class="p">().</span><span class="n">begin</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">output_name</span> <span class="o">=</span> <span class="n">network</span><span class="p">.</span><span class="n">getOutputsInfo</span><span class="p">().</span><span class="n">begin</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">output_info</span><span class="o">-&gt;</span><span class="n">setPrecision</span><span class="p">(</span><span class="n">Precision</span><span class="o">::</span><span class="n">FP32</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ExecutableNetwork</span> <span class="n">executable_network</span> <span class="o">=</span> <span class="n">ie</span><span class="p">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">device_type</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">infer_request</span> <span class="o">=</span> <span class="n">executable_network</span><span class="p">.</span><span class="n">CreateInferRequest</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 通用推理过程.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \param src 输入图像
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \return 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">base_processor_copy</span><span class="o">::</span><span class="n">CBaseProcessor</span><span class="o">::</span><span class="n">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">img_blob</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">PreProcess</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">infer_request</span><span class="p">.</span><span class="n">SetBlob</span><span class="p">(</span><span class="n">input_name</span><span class="p">,</span> <span class="n">img_blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">infer_request</span><span class="p">.</span><span class="n">Infer</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">output_blob</span> <span class="o">=</span> <span class="n">infer_request</span><span class="p">.</span><span class="n">GetBlob</span><span class="p">(</span><span class="n">output_name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MemoryBlob</span><span class="o">::</span><span class="n">CPtr</span> <span class="n">moutput</span> <span class="o">=</span> <span class="n">as</span><span class="o">&lt;</span><span class="n">MemoryBlob</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output_blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">moutput</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">(</span><span class="s">&#34;We expect output to be inherited from MemoryBlob, &#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;but by fact we were not able to cast output to MemoryBlob&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">auto</span> <span class="n">moutputHolder</span> <span class="o">=</span> <span class="n">moutput</span><span class="o">-&gt;</span><span class="n">rmap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">out</span> <span class="o">=</span> <span class="n">moutputHolder</span><span class="p">.</span><span class="n">as</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">PrecisionTrait</span><span class="o">&lt;</span><span class="n">Precision</span><span class="o">::</span><span class="n">FP32</span><span class="o">&gt;::</span><span class="n">value_type</span><span class="o">*&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 结果在后处理函数中得到
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">PostProcess</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="o">&amp;</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="派生类">派生类</h3>
+<p>新建一个class继承base_processor_copy::CBaseProcessor，在子类中重写PreProcess和PostProcess即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cm">/*****************************************************************//**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \file   test.h
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \brief  分割网络例子
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \author zsg
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \date   January 2023
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *********************************************************************/</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma once
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&#34;CNNProcessorCopy.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CSegmentationProcess</span> <span class="o">:</span><span class="k">public</span> <span class="n">base_processor_copy</span><span class="o">::</span><span class="n">CBaseProcessor</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CSegmentationProcess</span><span class="p">()</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">_mDst</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CSegmentationProcess</span><span class="p">(</span><span class="k">const</span> <span class="n">CSegmentationProcess</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CSegmentationProcess</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">CSegmentationProcess</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">~</span><span class="n">CSegmentationProcess</span><span class="p">()</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 单例模式，ps：由于通过成员变量存储处理结果，多线程环境下无法使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">static</span> <span class="n">CSegmentationProcess</span><span class="o">*</span> <span class="n">getInstance</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">static</span> <span class="n">CSegmentationProcess</span> <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">&amp;</span><span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">getDst</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">_mDst</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 重写基类方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">PreProcess</span><span class="p">(</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">bool</span> <span class="nf">PostProcess</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="n">blobFromImage</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">img</span><span class="p">,</span> <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&amp;</span> <span class="n">blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">SegPostProcess</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="调用">调用</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;test.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CSegmentationProcess</span><span class="o">*</span> <span class="n">segmentor</span> <span class="o">=</span> <span class="n">CSegmentationProcess</span><span class="o">::</span><span class="n">getInstance</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 模型初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">segmentor</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">(</span><span class="s">&#34;D:/test.onnx&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">path</span> <span class="o">=</span> <span class="s">&#34;D:/test.png&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">segmentor</span><span class="o">-&gt;</span><span class="n">Forward</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">dst_seg</span> <span class="o">=</span> <span class="n">segmentor</span><span class="o">-&gt;</span><span class="n">getDst</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="k">auto</span> <span class="n">end</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">auto</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;总时间: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; ms&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/deal.png" width="80%"/><figcaption>
+            <h4>分割结果</h4>
+        </figcaption>
+</figure>
+
+<figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/time_cost.png" width="80%"/><figcaption>
+            <h4>单线程下200次执行结果的时间开销</h4>
+        </figcaption>
+</figure>
+
+<p>单次执行结果约为15ms。（训练时修改了DeepLabV3模型中所有层的卷积核个数，分割时间开销较少）</p>
+<p>结束~</p>
     </div>
 
     
