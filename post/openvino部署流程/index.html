@@ -48,7 +48,7 @@
 <meta itemprop="name" content="Openvino部署流程">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-11-06T22:26:58+08:00" />
 <meta itemprop="dateModified" content="2022-11-06T22:26:58+08:00" />
-<meta itemprop="wordCount" content="1037">
+<meta itemprop="wordCount" content="1541">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Openvino部署流程"/>
 <meta name="twitter:description" content=""/>
@@ -136,13 +136,13 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#1下载">1.下载</a></li>
-        <li><a href="#2环境配置">2.环境配置</a></li>
-        <li><a href="#3例子">3.例子</a>
+        <li><a href="#1下载"><strong>1.下载</strong></a></li>
+        <li><a href="#2vs环境配置"><strong>2.VS环境配置</strong></a></li>
+        <li><a href="#3例子"><strong>3.例子</strong></a>
           <ul>
-            <li><a href="#基类">基类</a></li>
-            <li><a href="#派生类">派生类</a></li>
-            <li><a href="#调用">调用</a></li>
+            <li><a href="#基类"><strong>基类</strong></a></li>
+            <li><a href="#派生类"><strong>派生类</strong></a></li>
+            <li><a href="#调用"><strong>调用</strong></a></li>
           </ul>
         </li>
       </ul>
@@ -152,8 +152,20 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="1下载">1.下载</h2>
-<h2 id="2环境配置">2.环境配置</h2>
+      <h2 id="1下载"><strong>1.下载</strong></h2>
+<p><a href="https://www.intel.com/content/www/us/en/developer/tools/openvino-toolkit/download.html">openvino获取地址</a></p>
+<figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/download_item.png" width="50%"/><figcaption>
+            <h4>下载时选项</h4>
+        </figcaption>
+</figure>
+
+<p>使用时所需要的第三方库及依赖项在runtime目录下，进行相应的vs配置即可</p>
+<figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/folder.png" width="50%"/>
+</figure>
+
+<p>DLL除了bin目录下的外，还需要.\runtime\3rdparty\tbb\bin目录下的项</p>
+<p>除此之外需要在最开始执行.\setupvars.bat脚本对openvino所需环境进行初始化</p>
+<h2 id="2vs环境配置"><strong>2.VS环境配置</strong></h2>
 <figure><img src="/img/openvino%e9%83%a8%e7%bd%b2/reference_include.png" width="50%"/><figcaption>
             <h4>include_path</h4>
         </figcaption>
@@ -169,8 +181,8 @@
         </figcaption>
 </figure>
 
-<h2 id="3例子">3.例子</h2>
-<h3 id="基类">基类</h3>
+<h2 id="3例子"><strong>3.例子</strong></h2>
+<h3 id="基类"><strong>基类</strong></h3>
 <p>基类中实现初始化方法以及前向推理方法，前处理和后处理方式子类中重写。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -426,7 +438,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="派生类">派生类</h3>
+</div><h3 id="派生类"><strong>派生类</strong></h3>
 <p>新建一个class继承base_processor_copy::CBaseProcessor，在子类中重写PreProcess和PostProcess即可。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -518,7 +530,159 @@
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="调用">调用</h3>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cm">/*****************************************************************//**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \file   test.cpp
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \brief  派生类实现例子
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \author zsg
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \date   January 2023
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *********************************************************************/</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&#34;test.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">CSegmentationProcess</span><span class="o">::</span><span class="n">PreProcess</span><span class="p">(</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">image</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cv</span><span class="o">::</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Size</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">image</span><span class="p">.</span><span class="n">convertTo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">CV_32FC3</span><span class="p">,</span> <span class="mf">1.0f</span> <span class="o">/</span> <span class="mf">255.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">img_blob</span> <span class="o">=</span> <span class="n">infer_request</span><span class="p">.</span><span class="n">GetBlob</span><span class="p">(</span><span class="n">input_name</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">blobFromImage</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">img_blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">img_blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 内存转换为连续地址.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \param img
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \param blob
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">CSegmentationProcess</span><span class="o">::</span><span class="n">blobFromImage</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">&amp;</span> <span class="n">img</span><span class="p">,</span> <span class="n">Blob</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&amp;</span> <span class="n">blob</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">channels</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">img_h</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">rows</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">img_w</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">cols</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">mean_rgb</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">std_rgb</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InferenceEngine</span><span class="o">::</span><span class="n">MemoryBlob</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">mblob</span> <span class="o">=</span> <span class="n">InferenceEngine</span><span class="o">::</span><span class="n">as</span><span class="o">&lt;</span><span class="n">InferenceEngine</span><span class="o">::</span><span class="n">MemoryBlob</span><span class="o">&gt;</span><span class="p">(</span><span class="n">blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">mblobHolder</span> <span class="o">=</span> <span class="n">mblob</span><span class="o">-&gt;</span><span class="n">wmap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span><span class="o">*</span> <span class="n">blob_data</span> <span class="o">=</span> <span class="n">mblobHolder</span><span class="p">.</span><span class="n">as</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">*&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">channels</span><span class="p">;</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">img_h</span><span class="p">;</span> <span class="n">h</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">img_w</span><span class="p">;</span> <span class="n">w</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">blob_data</span><span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">img_w</span> <span class="o">*</span> <span class="n">img_h</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">img_w</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="kt">float</span><span class="p">)</span><span class="n">img</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Vec3f</span><span class="o">&gt;</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)[</span><span class="n">c</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean_rgb</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="o">/</span> <span class="n">std_rgb</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 重写父类方法.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \param out
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * \return
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">CSegmentationProcess</span><span class="o">::</span><span class="n">PostProcess</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SegPostProcess</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">CSegmentationProcess</span><span class="o">::</span><span class="n">SegPostProcess</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="mi">512</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">result</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">::</span><span class="n">zeros</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Size</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">),</span> <span class="n">CV_8U</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">;</span> <span class="n">h</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="n">w</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">H</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">W</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">H</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">W</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">255</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_mDst</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="调用"><strong>调用</strong></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -569,7 +733,7 @@
         </figcaption>
 </figure>
 
-<p>单次执行结果约为15ms。（训练时修改了DeepLabV3模型中所有层的卷积核个数，分割时间开销较少）</p>
+<p>512×512分辨率图像单次执行结果约为15ms。（训练时修改了DeepLabV3模型中所有层的卷积核个数，分割时间开销较少）</p>
 <p>结束~</p>
     </div>
 
