@@ -2,21 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://localhost:1313/post/openvino%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B/</loc>
-    <lastmod>2022-11-06T22:26:58+08:00</lastmod>
+    <loc>http://localhost:1313/post/openvino%E8%BD%AC%E6%8D%A2onnx%E6%A8%A1%E5%9E%8B%E8%87%B3ir%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2023-01-18T11:21:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/post/</loc>
-    <lastmod>2022-11-06T22:26:58+08:00</lastmod>
+    <lastmod>2023-01-18T11:21:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/</loc>
+    <lastmod>2023-01-18T11:21:17+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/openvino%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B/</loc>
     <lastmod>2022-11-06T22:26:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

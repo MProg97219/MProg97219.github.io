@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 梦境碎片</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 06 Nov 2022 22:26:58 +0800</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Jan 2023 11:21:17 +0800</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Openvino转换ONNX模型至IR模型</title>
+      <link>http://localhost:1313/post/openvino%E8%BD%AC%E6%8D%A2onnx%E6%A8%A1%E5%9E%8B%E8%87%B3ir%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 18 Jan 2023 11:21:17 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/openvino%E8%BD%AC%E6%8D%A2onnx%E6%A8%A1%E5%9E%8B%E8%87%B3ir%E6%A8%A1%E5%9E%8B/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>OpenVino部署流程</title>
       <link>http://localhost:1313/post/openvino%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B/</link>
